@@ -21,8 +21,22 @@ assessmentButton.onclick = () => {
   paragraph.innerText = result;
   resultDivided.appendChild(paragraph);
 
-  // TODO ツイートエリアの作成
+  // ツイートエリアの作成
   tweetDivided.innerText = '';
+  const anchor = document.createElement('a');
+  const hrefValue =
+    "https://twitter.com/intent/tweet?button_hashtag=あなたのいいところ&ref_src=twsrc%5Etfw" + encodeURIComponent('あなたのいいところ') +'&ref_src=twsrc%5Etfw';
+
+  anchor.setAttribute('href', hrefValue);
+  anchor.setAttribute('class', 'twitter-hashtag-button');
+  anchor.setAttribute('data-text', '診断結果の文章');
+  anchor.innerText = 'Tweet #あなたのいいところ';
+  tweetDivided.appendChild(anchor);
+
+  // widgets.js の設定
+  const script = document.createElement('script');
+  script.setAttribute('src', 'https://platform.twitter.com/widgets.js');
+  tweetDivided.appendChild(script);
 };
 
 const answers = [
@@ -62,6 +76,12 @@ function assessment(userName) {
 
   result = result.replaceAll('{userName}', userName);
   return result;
+}
+
+userNameInput.onkeydown = event => {
+  if (event.key === 'Enter') {
+    assessmentButton.onclick();
+  }
 }
 
 // テストコード
